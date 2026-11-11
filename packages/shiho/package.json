@@ -10,7 +10,8 @@
 		"directory": "packages/shiho"
 	},
 	"exports": {
-		".": "./src/index.ts"
+		".": "./src/index.ts",
+		"./bundle": "./src/bundle.ts"
 	},
 	"files": [
 		"dist",
@@ -21,6 +22,10 @@
 			".": {
 				"types": "./dist/index.d.ts",
 				"default": "./dist/index.js"
+			},
+			"./bundle": {
+				"types": "./dist/bundle.d.ts",
+				"default": "./dist/bundle.js"
 			}
 		}
 	},
@@ -37,11 +42,16 @@
 		"@yume-chan/stream-extra": "2.6.1",
 		"typescript": "7.0.2",
 		"vite": "8.3.6",
-		"vitest": "5.0.5"
+		"vitest": "5.0.5",
+		"@types/node": "26.6.6"
 	},
 	"peerDependencies": {
 		"@wonderhoy-labs/shira": "*",
 		"@yume-chan/adb": "*",
 		"@yume-chan/stream-extra": "*"
+	},
+	"dependencies": {
+		"wbn": "0.0.10",
+		"wbn-sign": "0.3.3"
 	}
 }

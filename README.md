@@ -116,6 +116,7 @@ if (isDirectSocketsAvailable()) {
 | `adbServerClient(options?)` | A Tango client for the adb server on this computer, over Direct Sockets: phones and emulators without WebUSB |
 | `isDirectSocketsAvailable()` | Whether this page can open sockets itself, which only an Isolated Web App can |
 | `trustSameOriginScripts()` | A Trusted Types default policy for the app's own scripts, which Shira's worker needs in an Isolated Web App |
+| `signWebBundle(directory, keyPem)`, `webBundleId(keyPem)` | From `@wonderhoy-labs/shiho/bundle`, for Node: signs a built site into an Isolated Web App's `.swbn` |
 
 The page has to be an Isolated Web App whose manifest allows `direct-sockets`, and `loopback-network`, `local-network`
 and `local-network-access` for the adb server and anything on the local network; `web/plugins/shiho.ts` writes

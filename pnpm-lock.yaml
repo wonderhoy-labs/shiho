@@ -248,18 +248,22 @@ importers:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
+
+  packages/shiho:
+    dependencies:
       wbn:
         specifier: 0.0.10
         version: 0.0.10
       wbn-sign:
         specifier: 0.3.3
         version: 0.3.3
-
-  packages/shiho:
     devDependencies:
       '@mercuryworkshop/wisp-js':
         specifier: github:wonderhoy-labs/wisp-js#960fa6b995d3b210d77fd81e99435aa7cf555721
         version: https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721
+      '@types/node':
+        specifier: 26.6.6
+        version: 26.6.6
       '@wonderhoy-labs/shira':
         specifier: link:../../../shira-upstream/packages/shira
         version: link:../../../shira-upstream/packages/shira
