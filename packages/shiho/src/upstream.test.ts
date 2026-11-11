@@ -132,7 +132,7 @@ describe("directSocketsUpstream", () => {
 		await settle();
 		expect(log.closes).toEqual([CLOSE_VOLUNTARY]);
 		await settle();
-		expect(socket.closedSocket).toBe(true);
+		expect(socket.closedSocket).toBe(false);
 	});
 
 	it("tells the phone when a connection can't be made", async () => {
@@ -153,7 +153,7 @@ describe("directSocketsUpstream", () => {
 		stream.close(CLOSE_VOLUNTARY);
 		await settle();
 		expect(log.closes).toEqual([]);
-		expect((FakeTcp.last as FakeTcp).closedSocket).toBe(true);
+		expect((FakeTcp.last as FakeTcp).closedSocket).toBe(false);
 	});
 
 	it("carries UDP datagrams", async () => {

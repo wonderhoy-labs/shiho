@@ -54,6 +54,18 @@ function browserSockets(): SocketClasses {
 	return { TCPSocket: scope.TCPSocket, UDPSocket: scope.UDPSocket };
 }
 
+/**
+ * Closes a socket whose streams nobody holds. TCPSocket.close() throws, rather than rejecting, while they're locked, and
+ * a socket whose streams are held closes once they're cancelled and closed instead.
+ */
+function closeQuietly(socket: TCPSocket | UDPSocket) {
+	try {
+		void socket.close().catch(() => undefined);
+	} catch {
+		// Its streams are held, and closing those closes it.
+	}
+}
+
 /** Keeps the count of bytes the phone has sent that haven't gone out yet, for every stream together. */
 class Unsent {
 	bytes = 0;
@@ -81,7 +93,7 @@ class TcpStream implements UpstreamStream {
 		socket.opened.then(
 			({ readable, writable }) => {
 				if (this.ended) {
-					void socket.close().catch(() => undefined);
+					closeQuietly(socket);
 					return;
 				}
 				this.writer = writable.getWriter();
@@ -160,10 +172,10 @@ class TcpStream implements UpstreamStream {
 		const reader = this.reader;
 		this.writer = null;
 		this.reader = null;
-		const closeSocket = () => void this.socket.close().catch(() => undefined);
+		// With both directions done, the socket closes.
 		void reader?.cancel().catch(() => undefined);
-		if (writer) writer.close().then(closeSocket, closeSocket);
-		else closeSocket();
+		void writer?.close().catch(() => undefined);
+		if (!reader && !writer) closeQuietly(this.socket);
 	}
 }
 
@@ -182,7 +194,7 @@ class UdpStream implements UpstreamStream {
 		socket.opened.then(
 			({ readable, writable }) => {
 				if (this.ended) {
-					void socket.close().catch(() => undefined);
+					closeQuietly(socket);
 					return;
 				}
 				this.writer = writable.getWriter();
@@ -243,7 +255,7 @@ class UdpStream implements UpstreamStream {
 		this.writer = null;
 		void reader?.cancel().catch(() => undefined);
 		void writer?.close().catch(() => undefined);
-		void this.socket.close().catch(() => undefined);
+		if (!reader && !writer) closeQuietly(this.socket);
 	}
 }
 

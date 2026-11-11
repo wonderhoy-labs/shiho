@@ -8,8 +8,9 @@ const repo = (path: string) => fileURLToPath(new URL(`../../${path}`, import.met
 export const MANIFEST_PATH = ".well-known/manifest.webmanifest";
 
 /**
- * The Isolated Web App's manifest. Direct Sockets need `direct-sockets`, and `direct-sockets-private` for the adb server
- * on this computer and for anything the phone reaches on the local network. WebUSB needs `usb`.
+ * The Isolated Web App's manifest. Direct Sockets need `direct-sockets`. The adb server on this computer and anything the
+ * phone reaches on the local network also need Local Network Access, which Chrome asks the person about: `loopback-network`
+ * and `local-network`, and `local-network-access`, its older name. WebUSB needs `usb`.
  */
 export function manifest(version: string, name: string, description: string, color: string): string {
 	return `${JSON.stringify(
@@ -31,7 +32,9 @@ export function manifest(version: string, name: string, description: string, col
 			permissions_policy: {
 				"cross-origin-isolated": ["self"],
 				"direct-sockets": ["self"],
-				"direct-sockets-private": ["self"],
+				"local-network": ["self"],
+				"local-network-access": ["self"],
+				"loopback-network": ["self"],
 				usb: ["self"],
 			},
 		},

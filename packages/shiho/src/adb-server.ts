@@ -34,6 +34,17 @@ class DirectSocketsConnector implements AdbServerClient.ServerConnector {
 			throw new Error(`Couldn't reach the adb server at ${this.host}:${this.port}. Is adb running?`);
 		}
 		const writer = opened.writable.getWriter();
+		const reader = opened.readable.getReader();
+		// Tango holds its own reader and writer on these and never lets go, and a TCPSocket can't be closed while its
+		// streams are locked. So these hold the socket's, and closing ends both directions, which closes the socket.
+		const readable = new ReadableStream<Uint8Array>({
+			pull: async (controller) => {
+				const { done, value } = await reader.read();
+				if (done) controller.close();
+				else controller.enqueue(value);
+			},
+			cancel: (reason) => reader.cancel(reason),
+		});
 		const writable = new MaybeConsumable.WritableStream<Uint8Array>({
 			write: (chunk) => writer.write(chunk as Uint8Array<ArrayBuffer>),
 			// Only the sending side, which is how adb's own client says it's done.
@@ -45,10 +56,12 @@ class DirectSocketsConnector implements AdbServerClient.ServerConnector {
 			() => undefined,
 		);
 		return {
-			readable: opened.readable as AdbServerClient.ServerConnection["readable"],
+			readable: readable as AdbServerClient.ServerConnection["readable"],
 			writable,
 			closed,
-			close: () => socket.close().catch(() => undefined),
+			close: async () => {
+				await Promise.allSettled([reader.cancel(), writer.close()]);
+			},
 		};
 	}
 

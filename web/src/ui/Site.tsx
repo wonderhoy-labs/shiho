@@ -21,7 +21,7 @@ export function Site() {
 				</div>
 			</section>
 
-			<mdui-card variant="outlined" className="card">
+			<mdui-card variant="filled" className="section">
 				<h2>How it works</h2>
 				<p>
 					On the phone, <a href="https://github.com/wonderhoy-labs/shira">Shira</a>'s VPN app takes every
@@ -36,7 +36,7 @@ export function Site() {
 				</p>
 			</mdui-card>
 
-			<mdui-card variant="outlined" className="card">
+			<mdui-card variant="filled" className="section">
 				<h2>Install it</h2>
 				<p>
 					Isolated Web Apps are installed from a signed web bundle. Outside managed ChromeOS, Chrome only
@@ -64,7 +64,7 @@ export function Site() {
 				</p>
 			</mdui-card>
 
-			<mdui-card variant="outlined" className="card">
+			<mdui-card variant="filled" className="section">
 				<h2>What you need</h2>
 				<ul>
 					<li>Chrome on macOS, Linux, Windows or ChromeOS.</li>

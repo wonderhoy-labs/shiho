@@ -19,7 +19,9 @@ const DELAYED_ACK_BYTES = 1024 * 1024;
 /** A phone or emulator that the adb server on this computer knows. */
 export interface AdbDevice {
 	serial: string;
-	label: string;
+	/** What to call it, like "Pixel 10 Pro" or "Android emulator". */
+	name: string;
+	emulator: boolean;
 }
 
 export interface State {
@@ -78,10 +80,15 @@ export class Controller {
 			const devices = await this.adbServer.getDevices(["device"]);
 			this.update({
 				adbProblem: null,
-				adbDevices: devices.map((device) => ({
-					serial: device.serial,
-					label: device.model ? `${device.model.replaceAll("_", " ")} (${device.serial})` : device.serial,
-				})),
+				adbDevices: devices.map((device) => {
+					const emulator = device.serial.startsWith("emulator-");
+					const model = device.model?.replaceAll("_", " ");
+					return {
+						serial: device.serial,
+						emulator,
+						name: emulator ? "Android emulator" : model || "Android phone",
+					};
+				}),
 			});
 		} catch (error) {
 			this.update({ adbDevices: [], adbProblem: error instanceof Error ? error.message : String(error) });
@@ -90,9 +97,9 @@ export class Controller {
 
 	/** Uses a phone through the adb server on this computer. */
 	async connectAdbDevice(device: AdbDevice) {
-		await this.run("Connecting to the phone.", async () => {
+		await this.run(`Connecting to ${device.name}.`, async () => {
 			const transport = await this.adbServer.createTransport({ serial: device.serial });
-			await this.attachPhone(new Phone(new Adb(transport), device.label, "adb-server"));
+			await this.attachPhone(new Phone(new Adb(transport), device.name, "adb-server"));
 		});
 	}
 
@@ -112,7 +119,7 @@ export class Controller {
 			} catch (error) {
 				if (error instanceof AdbDaemonWebUsbDevice.DeviceBusyError) {
 					throw new Error(
-						'Something else on this computer is using USB debugging, probably the adb server. Use "Phones adb can see" instead, or run "adb kill-server".',
+						"Something else on this computer is using USB debugging, probably the adb server. Pick the phone from the list instead.",
 					);
 				}
 				throw error;

@@ -1,158 +1,210 @@
-import { describeApp, describeClose, formatBytes, formatRate, type LinkState } from "@wonderhoy-labs/shira";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { appIsCurrent, Controller } from "../shiho/controller";
+import { describeApp, describeClose, formatBytes, formatRate } from "@wonderhoy-labs/shira";
+import { type ReactNode, useEffect, useState, useSyncExternalStore } from "react";
+import { type AdbDevice, appIsCurrent, Controller, type State } from "../shiho/controller";
 
 const controller = new Controller();
 const ROWS_SHOWN = 200;
 const LOG_REFRESH_MILLIS = 500;
+const DEVICE_POLL_MILLIS = 2_000;
 
-const LINK_WORDS: Record<LinkState, string> = {
-	idle: "Off. Your phone is on its own network.",
-	"waiting-for-app": "Waiting for Shira's VPN on the phone.",
-	connecting: "Starting the VPN.",
-	live: "Your phone is online through this computer.",
-	"server-lost": "Reconnecting.",
-};
+type StepState = "done" | "current" | "later";
 
+/** The app: three steps from a plugged-in phone to one that's online through this computer, then what it's doing. */
 export function Console() {
 	const state = useSyncExternalStore(
 		(listener) => controller.subscribe(listener),
 		() => controller.state,
 	);
 
+	// Phones come and go, so keep looking while none is chosen.
 	useEffect(() => {
+		if (state.phone) return;
 		void controller.refreshAdbDevices();
-	}, []);
+		const timer = setInterval(() => void controller.refreshAdbDevices(), DEVICE_POLL_MILLIS);
+		return () => clearInterval(timer);
+	}, [state.phone]);
+
+	const current = appIsCurrent(state.app);
+	const live = state.link === "live";
+	const phoneStep: StepState = state.phone ? "done" : "current";
+	const appStep: StepState = !state.phone ? "later" : current ? "done" : "current";
+	const networkStep: StepState = !state.phone || !current ? "later" : live ? "done" : "current";
+	const [title, subtitle] = headline(state, current);
 
 	return (
 		<main className="console">
+			<header className="console-head">
+				<h1>{title}</h1>
+				<p>{subtitle}</p>
+			</header>
+
 			{state.problem && (
-				<mdui-card variant="filled" className="card problem">
+				<div className="banner" role="alert">
 					<mdui-icon-error />
 					<span>{state.problem}</span>
-				</mdui-card>
+				</div>
 			)}
-			{state.busy && (
-				<mdui-card variant="filled" className="card busy">
-					<mdui-circular-progress />
-					<span>{state.busy}</span>
-				</mdui-card>
-			)}
-			{state.phone ? phoneCards() : choosePhone()}
+
+			<mdui-card variant="filled" className="steps">
+				<Step number={1} state={phoneStep} title="Phone" summary={phoneSummary(state)}>
+					{state.phone ? (
+						<mdui-button variant="text" onClick={() => void controller.disconnect()}>
+							Change
+						</mdui-button>
+					) : (
+						<DevicePicker state={state} />
+					)}
+				</Step>
+				<mdui-divider />
+				<Step
+					number={2}
+					state={appStep}
+					title="Shira's VPN app"
+					summary={
+						current
+							? `Shira ${state.app?.versionName} is on the phone.`
+							: "Shiho uses Shira's VPN app on the phone to hand it every connection."
+					}
+				>
+					{appStep === "current" &&
+						(state.installing !== null ? (
+							<mdui-linear-progress className="install-progress" value={state.installing} />
+						) : (
+							<mdui-button variant="filled" onClick={() => void controller.installApp()}>
+								<mdui-icon-download slot="icon" />
+								{state.app?.installed
+									? `Update to ${__SHIRA_VERSION__}`
+									: `Install Shira ${__SHIRA_VERSION__}`}
+							</mdui-button>
+						))}
+				</Step>
+				<mdui-divider />
+				<Step number={3} state={networkStep} title="Network" summary={networkSummary(state)}>
+					{networkStep !== "later" &&
+						(state.link === "idle" ? (
+							<mdui-button variant="filled" onClick={() => controller.start()}>
+								<mdui-icon-lan slot="icon" />
+								Share this computer's network
+							</mdui-button>
+						) : (
+							<mdui-button variant="tonal" onClick={() => controller.stop()}>
+								<mdui-icon-power-settings-new slot="icon" />
+								Stop sharing
+							</mdui-button>
+						))}
+				</Step>
+			</mdui-card>
+
+			{networkStep !== "later" && state.link !== "idle" && <Activity />}
 		</main>
 	);
+}
 
-	function choosePhone() {
-		return (
-			<mdui-card variant="outlined" className="card">
-				<h2>Choose your phone</h2>
-				<p>
-					Turn on USB debugging on the phone and plug it in. Shiho can reach it through the adb server on this
-					computer, if one is running, or straight over USB.
-				</p>
-				<h3>Phones adb can see</h3>
-				{state.adbProblem ? (
-					<p className="quiet">{state.adbProblem}</p>
-				) : state.adbDevices?.length === 0 ? (
-					<p className="quiet">None yet. Run "adb devices" on this computer and check the phone is listed.</p>
-				) : (
-					<mdui-list>
-						{state.adbDevices?.map((device) => (
-							<mdui-list-item
-								key={device.serial}
-								headline={device.label}
-								onClick={() => void controller.connectAdbDevice(device)}
-							>
-								<mdui-icon-smartphone slot="icon" />
-							</mdui-list-item>
-						))}
-					</mdui-list>
-				)}
-				<div className="actions">
-					<mdui-button variant="tonal" onClick={() => void controller.refreshAdbDevices()}>
-						<mdui-icon-refresh slot="icon" />
-						Look again
-					</mdui-button>
-					<mdui-button variant="filled" onClick={() => void controller.pickUsbPhone()}>
-						<mdui-icon-usb slot="icon" />
-						Choose a USB phone
-					</mdui-button>
-				</div>
-			</mdui-card>
-		);
-	}
+function headline(state: State, current: boolean): [string, string] {
+	if (!state.phone) return ["Connect your phone", "Plug it in with USB debugging on. It shows up below."];
+	if (!current) return ["Set up your phone", "One app, installed over the cable. Nothing else to do on the phone."];
+	if (state.link === "live") return ["Your phone is online", "Every app on it is using this computer's network."];
+	if (state.link === "idle") return ["Ready", "Your phone is still using its own network."];
+	return ["Starting", "Getting the phone's VPN going."];
+}
 
-	function phoneCards() {
-		const { phone, app, installing, link } = state;
-		const current = appIsCurrent(app);
-		const running = link !== "idle";
-		return (
-			<>
-				<mdui-card variant="outlined" className="card">
-					<div className="row">
-						<mdui-icon-smartphone />
-						<div className="grow">
-							<h2>{phone?.name}</h2>
-							<p className="quiet">
-								{phone?.kind === "usb" ? "Over USB" : "Through adb on this computer"}
-								{app?.installed
-									? ` · Shira ${app.versionName} installed`
-									: " · Shira's app isn't installed"}
-							</p>
-						</div>
-						<mdui-button variant="text" onClick={() => void controller.disconnect()}>
-							Disconnect
-						</mdui-button>
-					</div>
-					{!current && (
-						<>
-							<p>
-								Shiho uses Shira's VPN app on the phone. This installs Shira {__SHIRA_VERSION__}, which
-								comes with Shiho.
-							</p>
-							{installing !== null ? (
-								<mdui-linear-progress value={installing} />
-							) : (
-								<div className="actions">
-									<mdui-button variant="filled" onClick={() => void controller.installApp()}>
-										<mdui-icon-download slot="icon" />
-										{app?.installed ? "Update Shira" : "Install Shira"}
-									</mdui-button>
-								</div>
-							)}
-						</>
-					)}
-				</mdui-card>
-				{current && (
-					<mdui-card variant="outlined" className="card">
-						<div className="row">
-							{link === "live" ? <mdui-icon-check-circle className="live" /> : <mdui-icon-lan />}
-							<div className="grow">
-								<h2>Network</h2>
-								<p className="quiet">{LINK_WORDS[link]}</p>
-							</div>
-							<mdui-button
-								variant={running ? "tonal" : "filled"}
-								onClick={() => (running ? controller.stop() : controller.start())}
-							>
-								<mdui-icon-power-settings-new slot="icon" />
-								{running ? "Stop" : "Start"}
-							</mdui-button>
-						</div>
-						{running && (
-							<p className="quiet">
-								The first time, the phone asks to allow Shira's VPN connection. Tap OK there.
-							</p>
-						)}
-					</mdui-card>
-				)}
-				{current && <Connections />}
-			</>
-		);
+function phoneSummary(state: State): string {
+	if (state.phone) return `${state.phone.name}, ${state.phone.kind === "usb" ? "over USB" : "through adb"}`;
+	return "Choose the phone to put online.";
+}
+
+function networkSummary(state: State): string {
+	if (state.busy && state.phone && state.link !== "idle") return state.busy;
+	switch (state.link) {
+		case "live":
+			return "Online through this computer.";
+		case "waiting-for-app":
+			return "Waiting for the phone. If it asks about a VPN connection, tap OK.";
+		case "connecting":
+		case "server-lost":
+			return "Starting the VPN.";
+		default:
+			return "Share this computer's connection with the phone, apps, Minori's machines and Terminal included.";
 	}
 }
 
-function Connections() {
+function Step({
+	number,
+	state,
+	title,
+	summary,
+	children,
+}: {
+	number: number;
+	state: StepState;
+	title: string;
+	summary: string;
+	children?: ReactNode;
+}) {
+	return (
+		<section className={`step step-${state}`}>
+			<div className="step-marker" aria-hidden="true">
+				{state === "done" ? <mdui-icon-check /> : number}
+			</div>
+			<div className="step-body">
+				<h2>{title}</h2>
+				<p>{summary}</p>
+				{state !== "later" && children && <div className="step-content">{children}</div>}
+			</div>
+		</section>
+	);
+}
+
+function DevicePicker({ state }: { state: State }) {
+	const devices = state.adbDevices ?? [];
+	return (
+		<div className="picker">
+			{state.busy ? (
+				<div className="picker-note">
+					<mdui-circular-progress />
+					<span>{state.busy}</span>
+				</div>
+			) : devices.length > 0 ? (
+				<mdui-list className="devices">
+					{devices.map((device) => (
+						<DeviceRow key={device.serial} device={device} />
+					))}
+				</mdui-list>
+			) : (
+				<div className="picker-note">
+					{state.adbProblem ? (
+						<span>adb isn't running on this computer, so connect the phone over USB instead.</span>
+					) : (
+						<>
+							<mdui-circular-progress />
+							<span>Looking for phones. Unlock yours and allow USB debugging if it asks.</span>
+						</>
+					)}
+				</div>
+			)}
+			<mdui-button variant="text" onClick={() => void controller.pickUsbPhone()}>
+				<mdui-icon-usb slot="icon" />
+				{devices.length > 0 ? "Use USB instead" : "Connect over USB"}
+			</mdui-button>
+		</div>
+	);
+}
+
+function DeviceRow({ device }: { device: AdbDevice }) {
+	return (
+		<mdui-list-item
+			rounded
+			headline={device.name}
+			description={device.serial}
+			onClick={() => void controller.connectAdbDevice(device)}
+		>
+			{device.emulator ? <mdui-icon-devices slot="icon" /> : <mdui-icon-smartphone slot="icon" />}
+			<mdui-icon-chevron-right slot="end-icon" />
+		</mdui-list-item>
+	);
+}
+
+function Activity() {
 	const [, setTick] = useState(0);
 	useEffect(() => {
 		const timer = setInterval(() => setTick((tick) => tick + 1), LOG_REFRESH_MILLIS);
@@ -162,37 +214,58 @@ function Connections() {
 	const totals = log.totals(Date.now());
 	const rows = log.rows.slice(-ROWS_SHOWN).reverse();
 	return (
-		<mdui-card variant="outlined" className="card">
-			<h2>Connections</h2>
-			<p className="quiet">
-				{totals.active} open · {totals.total} in all · ↑ {formatBytes(totals.up)} ({formatRate(totals.upRate)})
-				· ↓ {formatBytes(totals.down)} ({formatRate(totals.downRate)})
-			</p>
-			<table className="log">
-				<thead>
-					<tr>
-						<th>App</th>
-						<th>To</th>
-						<th>Up</th>
-						<th>Down</th>
-						<th>State</th>
-					</tr>
-				</thead>
-				<tbody>
-					{rows.map((row) => (
-						<tr key={row.id} className={row.state}>
-							<td>{describeApp(row.uid, log.packages.get(row.uid))}</td>
-							<td>
-								{row.kind === "dns" ? `DNS ${row.name}` : `${row.name || row.host}:${row.port}`}
-								{row.kind === "udp" ? " (UDP)" : ""}
-							</td>
-							<td>{formatBytes(row.up)}</td>
-							<td>{formatBytes(row.down)}</td>
-							<td>{row.state === "open" ? "Open" : describeClose(row.closeReason)}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</mdui-card>
+		<section className="activity">
+			<div className="stats">
+				<Stat label="Open connections" value={String(totals.active)} detail={`${totals.total} so far`} />
+				<Stat label="Sent" value={formatBytes(totals.up)} detail={formatRate(totals.upRate)} />
+				<Stat label="Received" value={formatBytes(totals.down)} detail={formatRate(totals.downRate)} />
+			</div>
+			<mdui-card variant="filled" className="log-card">
+				<h2>Connections</h2>
+				{rows.length === 0 ? (
+					<p className="quiet">Nothing yet. Open an app on the phone.</p>
+				) : (
+					<div className="log-scroll">
+						<table className="log">
+							<thead>
+								<tr>
+									<th>App</th>
+									<th>Destination</th>
+									<th className="number">Sent</th>
+									<th className="number">Received</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								{rows.map((row) => (
+									<tr key={row.id} className={row.state}>
+										<td>{describeApp(row.uid, log.packages.get(row.uid))}</td>
+										<td>
+											{row.kind === "dns"
+												? `Looked up ${row.name}`
+												: `${row.name || row.host}:${row.port}`}
+											{row.kind === "udp" && <span className="tag">UDP</span>}
+										</td>
+										<td className="number">{formatBytes(row.up)}</td>
+										<td className="number">{formatBytes(row.down)}</td>
+										<td>{row.state === "open" ? "Open" : describeClose(row.closeReason)}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
+			</mdui-card>
+		</section>
+	);
+}
+
+function Stat({ label, value, detail }: { label: string; value: string; detail: string }) {
+	return (
+		<div className="stat">
+			<span className="stat-label">{label}</span>
+			<span className="stat-value">{value}</span>
+			<span className="stat-detail">{detail}</span>
+		</div>
 	);
 }
