@@ -91,7 +91,7 @@ server, once it's installed as an Isolated Web App.
 [Asahi](https://github.com/wonderhoy-labs/asahi) uses it that way. Add a release by its address, next to Shira's:
 
 ```json
-"@wonderhoy-labs/shiho": "https://github.com/wonderhoy-labs/shiho/releases/download/v0.1.0/wonderhoy-labs-shiho-0.1.0.tgz",
+"@wonderhoy-labs/shiho": "https://github.com/wonderhoy-labs/shiho/releases/download/v0.1.1/wonderhoy-labs-shiho-0.1.1.tgz",
 "@wonderhoy-labs/shira": "https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz"
 ```
 
@@ -144,6 +144,10 @@ only network:
 | Android's Terminal, through Minori 0.6.0's Terminal link | `curl` fetched the same 10 MB in 5.2 s, about 15 Mbit/s |
 
 Both downloads show in Shiho's log as Minori's, because Minori's NAT opens them as app sockets.
+
+**0.1.1** fixes the site, which was blank in 0.1.0 because the page tried to reach the adb server before checking it
+was installed. The built site was checked in Chrome for Testing, and the installed app still listed the emulator and the
+Pixel.
 
 **Not tried yet:** WebUSB (Chrome's device chooser needs a click the test couldn't give), Chrome's real Local Network
 Access prompt, installing through `chrome://web-app-internals` by hand, Linux, Windows, ChromeOS, other phones, upload

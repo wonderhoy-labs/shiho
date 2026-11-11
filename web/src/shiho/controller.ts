@@ -60,9 +60,15 @@ export class Controller {
 	state: State = initial;
 	readonly log = new LogStore();
 	private readonly listeners = new Set<() => void>();
-	private readonly adbServer = adbServerClient();
+	private adbServerValue: ReturnType<typeof adbServerClient> | null = null;
 	private phone: Phone | null = null;
 	private link: ShiraLink | null = null;
+
+	/** Made on first use, because only the installed app can make one, and the site loads this file too. */
+	private get adbServer() {
+		this.adbServerValue ??= adbServerClient();
+		return this.adbServerValue;
+	}
 
 	subscribe(listener: () => void): () => void {
 		this.listeners.add(listener);
