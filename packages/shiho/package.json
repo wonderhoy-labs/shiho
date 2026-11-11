@@ -1,6 +1,6 @@
 {
 	"name": "@wonderhoy-labs/shiho",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A phone's network through this computer, from an Isolated Web App: Direct Sockets for Shira's link, and the adb server without WebUSB.",
 	"license": "Apache-2.0",
 	"type": "module",
