@@ -43,18 +43,13 @@ export function manifest(version: string, name: string, description: string, col
 	)}\n`;
 }
 
-/** Tells the page its version and the version of Shira's app it carries, and writes the IWA manifest. */
+/** Tells the page its version, which its app on the phone shares, and writes the IWA manifest. */
 export function shiho(): Plugin {
 	const version = readFileSync(repo("VERSION"), "utf8").trim();
 	const root = JSON.parse(readFileSync(repo("package.json"), "utf8")) as {
 		wonderhoy: { name: string; tagline: string; color: string };
 	};
-	const shira = (
-		JSON.parse(readFileSync(repo("web/node_modules/@wonderhoy-labs/shira/package.json"), "utf8")) as {
-			version: string;
-		}
-	).version;
-	const [major = 0, minor = 0, patch = 0] = shira.split(".").map(Number);
+	const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);
 	const text = manifest(version, root.wonderhoy.name, root.wonderhoy.tagline, root.wonderhoy.color);
 
 	return {
@@ -63,8 +58,7 @@ export function shiho(): Plugin {
 		config: () => ({
 			define: {
 				__SHIHO_VERSION__: JSON.stringify(version),
-				__SHIRA_VERSION__: JSON.stringify(shira),
-				__SHIRA_VERSION_CODE__: major * 10_000 + minor * 100 + patch,
+				__SHIHO_VERSION_CODE__: major * 10_000 + minor * 100 + patch,
 			},
 		}),
 

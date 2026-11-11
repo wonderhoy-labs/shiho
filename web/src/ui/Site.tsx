@@ -24,11 +24,11 @@ export function Site() {
 			<mdui-card variant="filled" className="section">
 				<h2>How it works</h2>
 				<p>
-					On the phone, <a href="https://github.com/wonderhoy-labs/shira">Shira</a>'s VPN app takes every
-					connection apps make and hands it over USB debugging to Shiho. Shiho opens the same connection from
-					the computer with Chrome's{" "}
+					On the phone, Shiho's small VPN app takes every connection apps make and hands it over USB debugging
+					to Shiho on the computer. Shiho opens the same connection from the computer with Chrome's{" "}
 					<a href="https://developer.chrome.com/docs/iwa/direct-sockets">Direct Sockets</a>, and passes the
-					bytes back. Shira's own page does the same through a Wisp server; Shiho needs none.
+					bytes back. It's built on <a href="https://github.com/wonderhoy-labs/shira">Shira</a>, which does
+					the same through a Wisp server; Shiho needs none.
 				</p>
 				<p>
 					Shiho finds the phone through the adb server on the computer, if one is running, which also covers
@@ -68,7 +68,7 @@ export function Site() {
 				<h2>What you need</h2>
 				<ul>
 					<li>Chrome on macOS, Linux, Windows or ChromeOS.</li>
-					<li>An Android phone with USB debugging on, and a USB cable. Shiho installs Shira's app on it.</li>
+					<li>An Android phone with USB debugging on, and a USB cable. Shiho installs its app on it.</li>
 					<li>
 						For Minori's machines and Android's Terminal,{" "}
 						<a href="https://github.com/wonderhoy-labs/minori">Minori</a> 0.3.0 or newer on the phone.

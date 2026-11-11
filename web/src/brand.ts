@@ -4,8 +4,7 @@
 export const brand = {
 	name: "Shiho",
 	id: "shiho",
-	tagline:
-		"Your phone online through your computer, from an Isolated Web App: Direct Sockets, one USB cable and Shira's VPN",
+	tagline: "Get your Android phone online through Chrome's Direct Sockets, over a USB cable",
 	character: "Hinomori Shiho",
 	unit: "Leo/need",
 	color: "#BBDD22",
