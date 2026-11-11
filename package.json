@@ -1,5 +1,5 @@
 {
-	"name": "template",
+	"name": "shiho",
 	"private": true,
 	"type": "module",
 	"license": "Apache-2.0",
@@ -8,18 +8,19 @@
 		"node": ">=24"
 	},
 	"wonderhoy": {
-		"name": "Template",
-		"tagline": "The starting point for a new Wonderhoy Labs project.",
-		"character": "Hatsune Miku",
-		"unit": "VIRTUAL SINGER",
-		"color": "#33CCBB"
+		"name": "Shiho",
+		"tagline": "Your phone online through your computer, from an Isolated Web App: Direct Sockets, one USB cable and Shira's VPN",
+		"character": "Hinomori Shiho",
+		"unit": "Leo/need",
+		"color": "#BBDD22"
 	},
 	"scripts": {
 		"lint": "biome ci",
 		"format": "biome check --write",
 		"typecheck": "tsc -p .",
 		"theme": "node tools/theme.ts",
-		"unify": "node tools/unify.ts"
+		"unify": "node tools/unify.ts",
+		"bundle": "node tools/bundle.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.6.3",

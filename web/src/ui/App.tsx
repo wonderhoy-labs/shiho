@@ -1,22 +1,14 @@
-import { greet } from "@wonderhoy-labs/template";
-import { brand } from "../brand";
+import { isDirectSocketsAvailable } from "@wonderhoy-labs/shiho";
 import { AppBar } from "./Brand";
+import { Console } from "./Console";
+import { Site } from "./Site";
 
+/** Installed as an Isolated Web App, it's the app. Anywhere else, such as GitHub Pages, it explains how to get it. */
 export function App() {
 	return (
 		<div className="app">
-			<AppBar />
-			<main className="hero">
-				<h1>{greet(brand.name)}</h1>
-				<p>{brand.tagline}</p>
-				<mdui-card variant="filled" className="hero-card">
-					<mdui-icon-rocket-launch />
-					<span>
-						Replace this page with your app. The colours and the bar above come from the "wonderhoy" block
-						in package.json. Add the project's logo yourself; agents never make one.
-					</span>
-				</mdui-card>
-			</main>
+			<AppBar logo="./logo.webp" />
+			{isDirectSocketsAvailable() ? <Console /> : <Site />}
 		</div>
 	);
 }

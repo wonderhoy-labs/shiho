@@ -1,32 +1,360 @@
-.hero {
+/*
+ * Shiho's own look. The page is flat, on the surface colour, rather than the shared wash: with Shiho's lime it
+ * read as a stain behind the content. See "Exceptions to the guideline" in AGENTS.md.
+ */
+.app {
+	background: rgb(var(--mdui-color-surface));
+}
+
+.console,
+.site {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	gap: 8px;
+	gap: 24px;
 	width: 100%;
-	max-width: 720px;
+	max-width: 760px;
 	margin: 0 auto;
-	padding: 48px var(--page-gutter);
+	padding: 24px var(--page-gutter) 64px;
+}
+
+.console-head h1,
+.hero h1 {
+	margin: 0;
+	font-size: 32px;
+	line-height: 40px;
+	font-weight: 400;
+}
+
+.console-head p,
+.hero p {
+	margin: 8px 0 0;
+	font-size: 16px;
+	line-height: 24px;
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.quiet {
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.banner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 16px;
+	border-radius: 12px;
+	background: rgb(var(--mdui-color-error-container));
+	color: rgb(var(--mdui-color-on-error-container));
+}
+
+/* The three steps, in one card. */
+.steps {
+	display: block;
+	padding: 8px 0;
+	border-radius: 16px;
+	background: rgb(var(--mdui-color-surface-container));
+}
+
+.step {
+	display: flex;
+	gap: 16px;
+	padding: 16px 24px;
+}
+
+.step-marker {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	font-size: 14px;
+	font-weight: 500;
+	background: rgb(var(--mdui-color-surface-container-highest));
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.step-current .step-marker {
+	background: rgb(var(--mdui-color-primary));
+	color: rgb(var(--mdui-color-on-primary));
+}
+
+.step-done .step-marker {
+	background: rgb(var(--mdui-color-primary-container));
+	color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.step-marker mdui-icon-check {
+	font-size: 20px;
+}
+
+.step-body {
 	flex: 1;
-	text-align: center;
+	min-width: 0;
+	padding-top: 4px;
+}
+
+.step-body h2 {
+	margin: 0;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 500;
+}
+
+.step-body > p {
+	margin: 2px 0 0;
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.step-later .step-body {
+	color: rgb(var(--mdui-color-on-surface-variant));
+	opacity: 0.6;
+}
+
+.step-content {
+	margin-top: 12px;
+}
+
+.step-done .step-body {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.step-done .step-body > p {
+	grid-column: 1;
+}
+
+.step-done .step-content {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	margin: 0;
+}
+
+.install-progress {
+	width: 100%;
+	max-width: 320px;
+}
+
+/* Choosing a phone. */
+.picker {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.devices {
+	align-self: stretch;
+	padding: 0;
+	border-radius: 12px;
+	background: rgb(var(--mdui-color-surface-container-low));
+}
+
+.picker-note {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 4px 0;
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.picker-note mdui-circular-progress {
+	width: 20px;
+	height: 20px;
+}
+
+/* What the phone is doing. */
+.activity {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.stats {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+}
+
+.stat {
+	display: flex;
+	flex-direction: column;
+	padding: 16px 20px;
+	border-radius: 16px;
+	background: rgb(var(--mdui-color-surface-container));
+}
+
+.stat-label {
+	color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.stat-value {
+	font-size: 28px;
+	line-height: 36px;
+	font-variant-numeric: tabular-nums;
+}
+
+.stat-detail {
+	font-size: 12px;
+	color: rgb(var(--mdui-color-on-surface-variant));
+	font-variant-numeric: tabular-nums;
+}
+
+.log-card {
+	display: block;
+	padding: 16px 0 8px;
+	border-radius: 16px;
+	background: rgb(var(--mdui-color-surface-container));
+}
+
+.log-card h2 {
+	margin: 0 24px 8px;
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.log-card > p {
+	margin: 0 24px 8px;
+}
+
+.log-scroll {
+	max-height: 480px;
+	overflow: auto;
+}
+
+.log {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.log th {
+	position: sticky;
+	top: 0;
+	padding: 8px 12px;
+	text-align: start;
+	font-weight: 500;
+	color: rgb(var(--mdui-color-on-surface-variant));
+	background: rgb(var(--mdui-color-surface-container));
+}
+
+.log td {
+	padding: 6px 12px;
+	border-top: 1px solid rgb(var(--mdui-color-outline-variant));
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.log th:first-child,
+.log td:first-child {
+	padding-left: 24px;
+	width: 26%;
+}
+
+.log th:nth-child(2) {
+	width: 32%;
+}
+
+.log th:last-child {
+	width: 18%;
+}
+
+.log th:last-child,
+.log td:last-child {
+	padding-right: 24px;
+}
+
+.log .number {
+	text-align: end;
+}
+
+.log tr.failed td {
+	color: rgb(var(--mdui-color-error));
+}
+
+.tag {
+	margin-left: 6px;
+	padding: 0 6px;
+	border-radius: 4px;
+	font-size: 11px;
+	background: rgb(var(--mdui-color-secondary-container));
+	color: rgb(var(--mdui-color-on-secondary-container));
+}
+
+/* The site, for anyone who hasn't installed it. */
+.hero {
+	padding: 32px 0 8px;
 }
 
 .hero h1 {
-	margin: 16px 0 0;
 	font-size: 45px;
 	line-height: 52px;
 }
 
-.hero p {
-	margin: 0 0 24px;
-	color: rgb(var(--mdui-color-on-surface-variant));
-	font-size: 16px;
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 24px;
 }
 
-.hero-card {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	padding: 16px 20px;
-	text-align: start;
+.section {
+	display: block;
+	padding: 20px 24px;
+	border-radius: 16px;
+	background: rgb(var(--mdui-color-surface-container));
+}
+
+.section h2 {
+	margin: 0 0 8px;
+	font-size: 22px;
+	line-height: 28px;
+}
+
+.section p,
+.section li {
+	line-height: 22px;
+}
+
+.section ol,
+.section ul {
+	margin: 8px 0;
+	padding-left: 20px;
+}
+
+.section li + li {
+	margin-top: 6px;
+}
+
+.section a {
+	color: rgb(var(--mdui-color-primary));
+}
+
+.section code {
+	padding: 1px 6px;
+	border-radius: 6px;
+	font-size: 13px;
+	background: rgb(var(--mdui-color-surface-container-highest));
+	word-break: break-all;
+}
+
+@media (max-width: 600px) {
+	.stats {
+		grid-template-columns: 1fr;
+	}
+
+	.hero h1 {
+		font-size: 32px;
+		line-height: 40px;
+	}
+
+	.step {
+		padding: 16px;
+	}
 }
