@@ -11,3 +11,11 @@ declare module "react" {
 		}
 	}
 }
+
+declare global {
+	/** Shiho's own version, from VERSION. */
+	const __SHIHO_VERSION__: string;
+	/** The version of Shira's app that this page carries, from @wonderhoy-labs/shira. */
+	const __SHIRA_VERSION__: string;
+	const __SHIRA_VERSION_CODE__: number;
+}

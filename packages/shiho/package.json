@@ -1,0 +1,47 @@
+{
+	"name": "@wonderhoy-labs/shiho",
+	"version": "0.1.0",
+	"description": "A phone's network through this computer, from an Isolated Web App: Direct Sockets for Shira's link, and the adb server without WebUSB.",
+	"license": "Apache-2.0",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonderhoy-labs/shiho.git",
+		"directory": "packages/shiho"
+	},
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"publishConfig": {
+		"exports": {
+			".": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		}
+	},
+	"scripts": {
+		"build": "vite build && tsc -p tsconfig.build.json && cp src/direct-sockets.d.ts dist/",
+		"prepack": "pnpm run build",
+		"test": "vitest run",
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"@mercuryworkshop/wisp-js": "github:wonderhoy-labs/wisp-js#960fa6b995d3b210d77fd81e99435aa7cf555721",
+		"@wonderhoy-labs/shira": "link:../../../shira-upstream/packages/shira",
+		"@yume-chan/adb": "2.6.4",
+		"@yume-chan/stream-extra": "2.6.1",
+		"typescript": "7.0.2",
+		"vite": "8.3.6",
+		"vitest": "5.0.5"
+	},
+	"peerDependencies": {
+		"@wonderhoy-labs/shira": "*",
+		"@yume-chan/adb": "*",
+		"@yume-chan/stream-extra": "*"
+	}
+}

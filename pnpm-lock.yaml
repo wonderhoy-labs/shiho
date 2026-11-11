@@ -248,9 +248,27 @@ importers:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
+      wbn:
+        specifier: 0.0.10
+        version: 0.0.10
+      wbn-sign:
+        specifier: 0.3.3
+        version: 0.3.3
 
-  packages/template:
+  packages/shiho:
     devDependencies:
+      '@mercuryworkshop/wisp-js':
+        specifier: github:wonderhoy-labs/wisp-js#960fa6b995d3b210d77fd81e99435aa7cf555721
+        version: https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721
+      '@wonderhoy-labs/shira':
+        specifier: link:../../../shira-upstream/packages/shira
+        version: link:../../../shira-upstream/packages/shira
+      '@yume-chan/adb':
+        specifier: 2.6.4
+        version: 2.6.4
+      '@yume-chan/stream-extra':
+        specifier: 2.6.1
+        version: 2.6.1
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -269,9 +287,27 @@ importers:
       '@mdui/icons':
         specifier: 1.0.4
         version: 1.0.4
-      '@wonderhoy-labs/template':
+      '@mercuryworkshop/wisp-js':
+        specifier: github:wonderhoy-labs/wisp-js#960fa6b995d3b210d77fd81e99435aa7cf555721
+        version: https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721
+      '@wonderhoy-labs/shiho':
         specifier: workspace:*
-        version: link:../packages/template
+        version: link:../packages/shiho
+      '@wonderhoy-labs/shira':
+        specifier: link:../../shira-upstream/packages/shira
+        version: link:../../shira-upstream/packages/shira
+      '@yume-chan/adb':
+        specifier: 2.6.4
+        version: 2.6.4
+      '@yume-chan/adb-credential-web':
+        specifier: 2.1.0
+        version: 2.1.0
+      '@yume-chan/adb-daemon-webusb':
+        specifier: 2.3.2
+        version: 2.3.2
+      '@yume-chan/stream-extra':
+        specifier: 2.6.1
+        version: 2.6.1
       mdui:
         specifier: 2.1.5
         version: 2.1.5
@@ -282,12 +318,18 @@ importers:
         specifier: 19.3.1
         version: 19.3.1(react@19.3.1)
     devDependencies:
+      '@types/node':
+        specifier: 26.6.6
+        version: 26.6.6
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
+      '@types/w3c-web-usb':
+        specifier: 1.0.14
+        version: 1.0.14
       '@vitejs/plugin-react':
         specifier: 6.2.1
         version: 6.2.1(vite@8.3.6(@types/node@26.6.6))
@@ -411,6 +453,11 @@ packages:
 
   '@mdui/shared@1.0.9':
     resolution: {integrity: sha512-deB/IaekNZtoI4sSWAvZOTHt5NNgvbKFrGRwSZtFvSP/Ec1+DkHKuFNTAefEvMX4VpUC6C6Xr0uexPI3Dn4AgA==}
+
+  '@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721':
+    resolution: {gitHosted: true, integrity: sha512-330hBoxXxbfHRGV2DuGkuJPuNsQLd9973dXqxPY/TWY8hQwDhsHSUdV9b2JMDkWI1j890VElCgu6xVKY65J2LA==, tarball: https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721}
+    version: 0.5.3-wonderhoy.1
+    hasBin: true
 
   '@oxc-project/types@0.156.0':
     resolution: {integrity: sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==}
@@ -536,6 +583,9 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+
+  '@types/w3c-web-usb@1.0.14':
+    resolution: {integrity: sha512-Qu3Nn6JFuF4+sHKYl+IcX9vYiI40ogleXzFFSxoE1W94rG98o/kXs8uJ0QSfFzuwBCZWlGfUGpPkgwuuX4PchA==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -687,9 +737,49 @@ packages:
   '@vitest/spy@5.0.5':
     resolution: {integrity: sha512-lwJRExuH417257Q5wv9QYugN9IMJkoxcrKrYxGPQkBzl7wlNpTUxD/5yNX4ESKVUIShKPgkGchYPFMWOOk0wzw==}
 
+  '@yume-chan/adb-credential-web@2.1.0':
+    resolution: {integrity: sha512-ps5XWt+xxm6Mi9eF80ePprPJ/uRFMhfR437betQE8hixrjdZpkZgMlqZU6GlnuebMi0djrbP8GWB49jJekJVYA==}
+
+  '@yume-chan/adb-daemon-webusb@2.3.2':
+    resolution: {integrity: sha512-5ANaqsRJWFc5kKMnGALjYCrSXo5eC4u51dvYppvuBCLVjv12n7he2TPy5yEZ3XtlToRFS0kWCQC0XS8M60lRSA==}
+
+  '@yume-chan/adb@2.6.4':
+    resolution: {integrity: sha512-aaN21ZOLjWW1nC09C21f0yQkCqxkuMWMqheryGEbmGLPhuzIyOhTurJK8cXh5ZnQ+ptdKBexqvoG6zYoul9XPA==}
+
+  '@yume-chan/async@4.2.2':
+    resolution: {integrity: sha512-sF4nd/GZKgLVhACPHW2KY6JBiFXVVLZtCy+P42XTM5LPBy57+hj4+jumdEUr46f+MUOQhe8eyiuB1P6QOew/xQ==}
+
+  '@yume-chan/event@2.0.0':
+    resolution: {integrity: sha512-z56MDOcX1QlgLUCuA6th3r10negVb7A3gzY//TwSC9ZOvzuRlrAqXcxZf1T3hHfNMk/NFO9RIgQgegXYSfaqLw==}
+
+  '@yume-chan/no-data-view@2.0.0':
+    resolution: {integrity: sha512-0GRJrrt6wtZlbiE92jocHOnaAvjQ+Y7xwwhwOPqLkwf90Kj1JIHJ5Zh4wJVQSQIkzfRSOpM+jeEQdC2K15snlA==}
+
+  '@yume-chan/stream-extra@2.6.1':
+    resolution: {integrity: sha512-GQ+Q0SQf9p6Fl7ZK0UO5vHVGBJgkTJm/WXKurUMpjHQV4VUpjZ2hrQ744aCfT7WwSol7Bz/uEiXWmk240Hr/hg==}
+
+  '@yume-chan/struct@2.3.2':
+    resolution: {integrity: sha512-afoCnSKV+5HRK7e4innVd9YTYDyNWdjA1CVQa1j8rWYnmr7HGZfdkHMQr+AESLk6GxWFMzOIPQIG6nYOTGMFIw==}
+
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
+
+  base32-encode@2.0.0:
+    resolution: {integrity: sha512-mlmkfc2WqdDtMl/id4qm3A7RjW6jxcbAoMjdRmsPiwQP0ufD4oXItYMnPgVHe80lnAIy+1xwzhHE1s4FoIceSw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  bufferutil@4.2.0:
+    resolution: {integrity: sha512-gyy58jET9kst2IGyBKb96a4Y2bPGTHXGyCd0/1eqIV3hr1Sz3VxtA8n7bXh8fLIuE2K6Z0Upax5a5Msx+HU1IQ==}
+    engines: {node: '>=6.14.2'}
+
+  cborg@1.10.2:
+    resolution: {integrity: sha512-b3tFPA9pUr2zCUiCfRd2+wok2/LBSNUMKOuRRok+WlvvAgEt/PlbgPTsZUcwCOs53IJvLgTp0eotwtosE6njug==}
+    hasBin: true
+
+  cborg@4.5.8:
+    resolution: {integrity: sha512-6/viltD51JklRhq4L7jC3zgy6gryuG5xfZ3kzpE+PravtyeQLeQmCYLREhQH7pWENg5pY4Yu/XCd6a7dKScVlw==}
+    hasBin: true
 
   chai@6.3.0:
     resolution: {integrity: sha512-XWAtwJ6OHO+tj0EKCs0Y2UamnyOxseZWltU4x2U2wh8g4AigdjwvtUjvLP2tqkA/avxHEtzxNaqGq/YGNwckKg==}
@@ -697,6 +787,18 @@ packages:
 
   classcat@5.0.5:
     resolution: {integrity: sha512-JhZUT7JFcQy/EzW605k/ktHtncoo9vnyW/2GspNYwFlN1C/WmjuV/xtS04e9SOkL2sTdw0VAZ2UGCcQ9lR6p6w==}
+
+  commander@14.0.3:
+    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
+    engines: {node: '>=20'}
+
+  commander@15.1.0:
+    resolution: {integrity: sha512-cgnQ88TRrWcC7pVq46RzJVRMktu3W2RcbnoidnfBsl1bmDCBwJS/udcIZpKoCrbAYYaCqsz1yZCVIgbIaU3ddQ==}
+    engines: {node: '>=22.12.0'}
+
+  commander@4.1.1:
+    resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
+    engines: {node: '>= 6'}
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -728,6 +830,10 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  ipaddr.js@2.5.0:
+    resolution: {integrity: sha512-aq+t5NAc+cS6rZQQVWC2x98CPqGtKKTMDd4Gaodv0wShnItdKg/51djkGJ1hqH+Oy0ivDftCbSLCQob8zso01w==}
+    engines: {node: '>= 10'}
 
   is-promise@4.0.0:
     resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
@@ -821,9 +927,22 @@ packages:
   mdui@2.1.5:
     resolution: {integrity: sha512-uvXy/IFu/K93lAswsbKNj2Dn7Aab0LjWgdnfyIM/RQL0BhDe6Y9ChbN0x/Ts1W03nJtcef3wb1Fp44q8L9zmiQ==}
 
+  mime@2.6.0:
+    resolution: {integrity: sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==}
+    engines: {node: '>=4.0.0'}
+    hasBin: true
+
+  mute-stream@1.0.0:
+    resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
   nanoid@3.3.20:
     resolution: {integrity: sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  node-gyp-build@4.8.4:
+    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
     hasBin: true
 
   obug@3.0.0:
@@ -849,6 +968,10 @@ packages:
   react@19.3.1:
     resolution: {integrity: sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==}
     engines: {node: '>=0.10.0'}
+
+  read@2.1.0:
+    resolution: {integrity: sha512-bvxi1QLJHcaywCAEsAk4DG3nVoqiY2Csps3qzWalhj5hFqRn1d/OixkFXtLO1PrgHUcAP0FNaSY/5GYNfENFFQ==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
   rolldown@1.2.16:
     resolution: {integrity: sha512-bWvlMpFKiTfDKfnK7FC2MPgPeWCf/Kpwsq49ApdW+FQaBZb6O6dZ4MAPbPUjp7hYQrw/RobqCzn64BRrQecGHw==}
@@ -879,6 +1002,10 @@ packages:
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
+
+  to-data-view@2.0.0:
+    resolution: {integrity: sha512-RGEM5KqlPHr+WVTPmGNAXNeFEmsBnlkxXaIfEpUYV0AST2Z5W1EGq9L/MENFrMMmL2WQr1wjkmZy/M92eKhjYA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   tslib@2.9.1:
     resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
@@ -975,10 +1102,32 @@ packages:
       jsdom:
         optional: true
 
+  wbn-sign@0.3.3:
+    resolution: {integrity: sha512-tJbQIzCwIz0XjGOEwQnQcNTY0dar5VTDji3GSNwlFBVEm1RyBYZELIz1/ki3AsbdcNPIkK/HKEzWMdgAWD8wPQ==}
+    engines: {node: '>= 22.13.0', npm: '>= 10.0.0'}
+    hasBin: true
+
+  wbn@0.0.10:
+    resolution: {integrity: sha512-CveWTUFIIm2DRTPt2Q2XSUcBL+v/tYKdzfLDhPQtwE/vH8jqQCa9CvEwHsfFELks5Nurni2rN2DmR/fp3GccRg==}
+    engines: {node: '>= 20.0.0'}
+    hasBin: true
+
   why-is-node-running@3.2.1:
     resolution: {integrity: sha512-Tb2FUhB4vUsGQlfSquQLYkApkuPAFQXGFzxWKHHumVz2dK+X1RUm/HnID4+TfIGYJ1kTcwOaCk/buYCEJr6YjQ==}
     engines: {node: '>=20.11'}
     hasBin: true
+
+  ws@8.22.2:
+    resolution: {integrity: sha512-/rEZ2ejown2N5gxVTHUu9bVVC7ttu0/Tgzf5hbTOixR3Fs7mbbXgn2DbdbcKgJOmpQMtrIUWivtYuVMnp/W/yA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
 snapshots:
 
@@ -1074,6 +1223,15 @@ snapshots:
       ssr-window: 5.0.1
       tslib: 2.9.1
 
+  '@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721':
+    dependencies:
+      bufferutil: 4.2.0
+      commander: 15.1.0
+      ipaddr.js: 2.5.0
+      ws: 8.22.2(bufferutil@4.2.0)
+    transitivePeerDependencies:
+      - utf-8-validate
+
   '@oxc-project/types@0.156.0': {}
 
   '@rolldown/binding-android-arm-eabi@1.2.16':
@@ -1145,6 +1303,8 @@ snapshots:
       csstype: 3.2.3
 
   '@types/trusted-types@2.0.7': {}
+
+  '@types/w3c-web-usb@1.0.14': {}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
@@ -1222,11 +1382,67 @@ snapshots:
 
   '@vitest/spy@5.0.5': {}
 
+  '@yume-chan/adb-credential-web@2.1.0':
+    dependencies:
+      '@yume-chan/adb': 2.6.4
+
+  '@yume-chan/adb-daemon-webusb@2.3.2':
+    dependencies:
+      '@types/w3c-web-usb': 1.0.14
+      '@yume-chan/adb': 2.6.4
+      '@yume-chan/event': 2.0.0
+      '@yume-chan/stream-extra': 2.6.1
+      '@yume-chan/struct': 2.3.2
+
+  '@yume-chan/adb@2.6.4':
+    dependencies:
+      '@yume-chan/async': 4.2.2
+      '@yume-chan/event': 2.0.0
+      '@yume-chan/no-data-view': 2.0.0
+      '@yume-chan/stream-extra': 2.6.1
+      '@yume-chan/struct': 2.3.2
+
+  '@yume-chan/async@4.2.2': {}
+
+  '@yume-chan/event@2.0.0':
+    dependencies:
+      '@yume-chan/async': 4.2.2
+
+  '@yume-chan/no-data-view@2.0.0': {}
+
+  '@yume-chan/stream-extra@2.6.1':
+    dependencies:
+      '@yume-chan/async': 4.2.2
+      '@yume-chan/struct': 2.3.2
+
+  '@yume-chan/struct@2.3.2':
+    dependencies:
+      '@yume-chan/async': 4.2.2
+      '@yume-chan/no-data-view': 2.0.0
+
   assertion-error@2.0.1: {}
+
+  base32-encode@2.0.0:
+    dependencies:
+      to-data-view: 2.0.0
+
+  bufferutil@4.2.0:
+    dependencies:
+      node-gyp-build: 4.8.4
+
+  cborg@1.10.2: {}
+
+  cborg@4.5.8: {}
 
   chai@6.3.0: {}
 
   classcat@5.0.5: {}
+
+  commander@14.0.3: {}
+
+  commander@15.1.0: {}
+
+  commander@4.1.1: {}
 
   csstype@3.2.3: {}
 
@@ -1246,6 +1462,8 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  ipaddr.js@2.5.0: {}
 
   is-promise@4.0.0: {}
 
@@ -1333,7 +1551,13 @@ snapshots:
       ssr-window: 5.0.1
       tslib: 2.9.1
 
+  mime@2.6.0: {}
+
+  mute-stream@1.0.0: {}
+
   nanoid@3.3.20: {}
+
+  node-gyp-build@4.8.4: {}
 
   obug@3.0.0: {}
 
@@ -1353,6 +1577,10 @@ snapshots:
       scheduler: 0.28.0
 
   react@19.3.1: {}
+
+  read@2.1.0:
+    dependencies:
+      mute-stream: 1.0.0
 
   rolldown@1.2.16:
     dependencies:
@@ -1391,6 +1619,8 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
+
+  to-data-view@2.0.0: {}
 
   tslib@2.9.1: {}
 
@@ -1451,4 +1681,22 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
+  wbn-sign@0.3.3:
+    dependencies:
+      base32-encode: 2.0.0
+      cborg: 4.5.8
+      commander: 14.0.3
+      picocolors: 1.1.1
+      read: 2.1.0
+
+  wbn@0.0.10:
+    dependencies:
+      cborg: 1.10.2
+      commander: 4.1.1
+      mime: 2.6.0
+
   why-is-node-running@3.2.1: {}
+
+  ws@8.22.2(bufferutil@4.2.0):
+    optionalDependencies:
+      bufferutil: 4.2.0
