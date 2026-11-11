@@ -258,7 +258,11 @@
 }
 
 .log th:nth-child(2) {
-	width: 36%;
+	width: 32%;
+}
+
+.log th:last-child {
+	width: 18%;
 }
 
 .log th:last-child,

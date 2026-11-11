@@ -17,12 +17,16 @@ import "@mdui/icons/lan.js";
 import "@mdui/icons/power-settings-new.js";
 import "@mdui/icons/smartphone.js";
 import "@mdui/icons/usb.js";
+import { trustSameOriginScripts } from "@wonderhoy-labs/shiho";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./ui/App";
 import "./ui/theme.css";
 import "./ui/wonderhoy.css";
 import "./ui/styles.css";
+
+// Shira's library starts a worker, which an Isolated Web App only allows through a Trusted Types policy.
+trustSameOriginScripts();
 
 const root = document.getElementById("root");
 if (!root) throw new Error("index.html has no #root");

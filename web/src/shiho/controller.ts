@@ -61,7 +61,7 @@ export class Controller {
 	readonly log = new LogStore();
 	private readonly listeners = new Set<() => void>();
 	private readonly adbServer = adbServerClient();
-	private phone: Phone | null = null;
+	phone: Phone | null = null;
 	private link: ShiraLink | null = null;
 
 	subscribe(listener: () => void): () => void {

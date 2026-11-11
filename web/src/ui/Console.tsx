@@ -269,3 +269,4 @@ function Stat({ label, value, detail }: { label: string; value: string; detail: 
 		</div>
 	);
 }
+(globalThis as Record<string, unknown>).__dbg = controller; // DBG
