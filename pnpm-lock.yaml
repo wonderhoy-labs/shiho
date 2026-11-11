@@ -265,8 +265,8 @@ importers:
         specifier: 26.6.6
         version: 26.6.6
       '@wonderhoy-labs/shira':
-        specifier: link:../../../shira-upstream/packages/shira
-        version: link:../../../shira-upstream/packages/shira
+        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz
+        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
       '@yume-chan/adb':
         specifier: 2.6.4
         version: 2.6.4
@@ -298,8 +298,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/shiho
       '@wonderhoy-labs/shira':
-        specifier: link:../../shira-upstream/packages/shira
-        version: link:../../shira-upstream/packages/shira
+        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz
+        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
       '@yume-chan/adb':
         specifier: 2.6.4
         version: 2.6.4
@@ -741,6 +741,12 @@ packages:
   '@vitest/spy@5.0.5':
     resolution: {integrity: sha512-lwJRExuH417257Q5wv9QYugN9IMJkoxcrKrYxGPQkBzl7wlNpTUxD/5yNX4ESKVUIShKPgkGchYPFMWOOk0wzw==}
 
+  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz':
+    resolution: {integrity: sha512-CGgVxNqnwwGF1Qhg1Cv7rgtu9RHtIvoqpsFZPPxMsQUeLEybbK8rcUp4KrH6bCYWocZZmXuhWWTgGC6PZKsXuw==, tarball: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz}
+    version: 0.3.0
+    peerDependencies:
+      '@mercuryworkshop/wisp-js': '*'
+
   '@yume-chan/adb-credential-web@2.1.0':
     resolution: {integrity: sha512-ps5XWt+xxm6Mi9eF80ePprPJ/uRFMhfR437betQE8hixrjdZpkZgMlqZU6GlnuebMi0djrbP8GWB49jJekJVYA==}
 
@@ -749,6 +755,9 @@ packages:
 
   '@yume-chan/adb@2.6.4':
     resolution: {integrity: sha512-aaN21ZOLjWW1nC09C21f0yQkCqxkuMWMqheryGEbmGLPhuzIyOhTurJK8cXh5ZnQ+ptdKBexqvoG6zYoul9XPA==}
+
+  '@yume-chan/android-bin@2.1.0':
+    resolution: {integrity: sha512-is97IQwmSTmGCLe8GKO3rRDib2is6Xumo9KzeArgHwizIF0XnpCUm/xIVJLnpifR9PlMyLldDUttTZMTnaNivg==}
 
   '@yume-chan/async@4.2.2':
     resolution: {integrity: sha512-sF4nd/GZKgLVhACPHW2KY6JBiFXVVLZtCy+P42XTM5LPBy57+hj4+jumdEUr46f+MUOQhe8eyiuB1P6QOew/xQ==}
@@ -1386,6 +1395,12 @@ snapshots:
 
   '@vitest/spy@5.0.5': {}
 
+  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)':
+    dependencies:
+      '@mercuryworkshop/wisp-js': https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721
+      '@yume-chan/adb': 2.6.4
+      '@yume-chan/android-bin': 2.1.0
+
   '@yume-chan/adb-credential-web@2.1.0':
     dependencies:
       '@yume-chan/adb': 2.6.4
@@ -1403,6 +1418,12 @@ snapshots:
       '@yume-chan/async': 4.2.2
       '@yume-chan/event': 2.0.0
       '@yume-chan/no-data-view': 2.0.0
+      '@yume-chan/stream-extra': 2.6.1
+      '@yume-chan/struct': 2.3.2
+
+  '@yume-chan/android-bin@2.1.0':
+    dependencies:
+      '@yume-chan/adb': 2.6.4
       '@yume-chan/stream-extra': 2.6.1
       '@yume-chan/struct': 2.3.2
 

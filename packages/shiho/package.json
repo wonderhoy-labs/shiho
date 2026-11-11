@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@mercuryworkshop/wisp-js": "github:wonderhoy-labs/wisp-js#960fa6b995d3b210d77fd81e99435aa7cf555721",
-		"@wonderhoy-labs/shira": "link:../../../shira-upstream/packages/shira",
+		"@wonderhoy-labs/shira": "https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz",
 		"@yume-chan/adb": "2.6.4",
 		"@yume-chan/stream-extra": "2.6.1",
 		"typescript": "7.0.2",
