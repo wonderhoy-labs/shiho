@@ -18,7 +18,20 @@ jobs:
   checks:
     uses: wonderhoy-labs/.github/.github/workflows/checks.yml@main
 
+  android:
+    uses: wonderhoy-labs/.github/.github/workflows/android.yml@main
+    with:
+      name: shiho
+      env-prefix: SHIHO
+    secrets:
+      KEYSTORE_BASE64: ${{ secrets.SHIHO_KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.SHIHO_KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.SHIHO_KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.SHIHO_KEY_PASSWORD }}
+
+  # The library and the page carry the app, and install it on the phone.
   web:
+    needs: android
     permissions:
       contents: read
       pages: write
@@ -26,13 +39,15 @@ jobs:
     uses: wonderhoy-labs/.github/.github/workflows/web.yml@main
     with:
       library: shiho
+      apk-artifact: shiho-apk
+      apk-path: packages/shiho/shiho.apk
       release-files: shiho.swbn
     secrets:
       WEB_BUNDLE_KEY: ${{ secrets.SHIHO_IWA_KEY }}
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [checks, web]
+    needs: [checks, android, web]
     permissions:
       contents: write
       id-token: write

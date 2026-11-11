@@ -7,6 +7,7 @@
 /// <reference path="./direct-sockets.d.ts" />
 
 export { ADB_SERVER_PORT, type AdbServerOptions, adbServerClient } from "./adb-server";
+export { SHIHO_APP } from "./app";
 export { trustSameOriginScripts } from "./trusted-types";
 export {
 	CLOSE_NETWORK_ERROR,

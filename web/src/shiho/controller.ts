@@ -1,4 +1,5 @@
-import { adbServerClient, directSocketsUpstream } from "@wonderhoy-labs/shiho";
+import { adbServerClient, directSocketsUpstream, SHIHO_APP } from "@wonderhoy-labs/shiho";
+import shihoApkUrl from "@wonderhoy-labs/shiho/shiho.apk?url";
 import {
 	type AppInfo,
 	InstallError,
@@ -8,7 +9,6 @@ import {
 	ShiraLink,
 	type StopReason,
 } from "@wonderhoy-labs/shira";
-import shiraApkUrl from "@wonderhoy-labs/shira/shira.apk?url";
 import { Adb, AdbDaemonTransport } from "@yume-chan/adb";
 import AdbWebCredentialStore from "@yume-chan/adb-credential-web";
 import { AdbDaemonWebUsbDevice, AdbDaemonWebUsbDeviceManager } from "@yume-chan/adb-daemon-webusb";
@@ -50,12 +50,12 @@ const initial: State = {
 	problem: null,
 };
 
-/** True when Shira's app on the phone is the one this page carries, or newer. */
+/** True when Shiho's app on the phone is the one this page carries, or newer. */
 export function appIsCurrent(app: AppInfo | null): boolean {
-	return !!app?.installed && (app.versionCode ?? 0) >= __SHIRA_VERSION_CODE__;
+	return !!app?.installed && (app.versionCode ?? 0) >= __SHIHO_VERSION_CODE__;
 }
 
-/** Everything the page does: finds the phone, sees to Shira's app on it, and runs the link. */
+/** Everything the page does: finds the phone, sees to Shiho's app on it, and runs the link. */
 export class Controller {
 	state: State = initial;
 	readonly log = new LogStore();
@@ -105,7 +105,7 @@ export class Controller {
 	async connectAdbDevice(device: AdbDevice) {
 		await this.run(`Connecting to ${device.name}.`, async () => {
 			const transport = await this.adbServer.createTransport({ serial: device.serial });
-			await this.attachPhone(new Phone(new Adb(transport), device.name, "adb-server"));
+			await this.attachPhone(new Phone(new Adb(transport), device.name, "adb-server", SHIHO_APP));
 		});
 	}
 
@@ -136,7 +136,7 @@ export class Controller {
 				credentialStore: new AdbWebCredentialStore("Shiho"),
 				initialDelayedAckBytes: DELAYED_ACK_BYTES,
 			});
-			await this.attachPhone(new Phone(new Adb(transport), device.name || "Your phone", "usb"));
+			await this.attachPhone(new Phone(new Adb(transport), device.name || "Your phone", "usb", SHIHO_APP));
 		});
 	}
 
@@ -152,13 +152,13 @@ export class Controller {
 		});
 	}
 
-	/** Installs the Shira app that this page carries. */
+	/** Installs Shiho's app, which this page carries. */
 	async installApp() {
 		const phone = this.phone;
 		if (!phone) return;
 		this.update({ installing: 0, problem: null });
 		try {
-			const apk = new Uint8Array(await (await fetch(shiraApkUrl)).arrayBuffer());
+			const apk = new Uint8Array(await (await fetch(shihoApkUrl)).arrayBuffer());
 			try {
 				await phone.install(apk, (installing) => this.update({ installing }));
 			} catch (error) {
@@ -169,7 +169,7 @@ export class Controller {
 			}
 			this.update({ app: await phone.appInfo() });
 		} catch (error) {
-			this.update({ problem: `Couldn't install Shira's app. ${error instanceof Error ? error.message : error}` });
+			this.update({ problem: `Couldn't install Shiho's app. ${error instanceof Error ? error.message : error}` });
 		} finally {
 			this.update({ installing: null });
 		}
@@ -225,7 +225,7 @@ export class Controller {
 function describeStop(reason: StopReason): string {
 	switch (reason.kind) {
 		case "off":
-			return "Shira was turned off on the phone.";
+			return "Shiho was turned off on the phone.";
 		case "replaced":
 			return "Another page took over the phone's link.";
 		case "app-mismatch":

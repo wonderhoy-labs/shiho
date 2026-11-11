@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Shiho</string>
+	<string name="subtitle">Your phone online through your computer</string>
+	<string name="site_address" translatable="false">wonderhoy-labs.github.io/shiho</string>
+
+	<string name="activate">Activate</string>
+	<string name="deactivate">Deactivate</string>
+	<string name="dismiss">Dismiss</string>
+
+	<string name="status_off">Off</string>
+	<string name="status_off_body">Activate Shiho here, or let Shiho on your computer do it for you.</string>
+	<string name="status_waiting">Waiting for your computer</string>
+	<string name="status_waiting_body">Your network keeps working as normal until your computer connects.</string>
+	<string name="status_connected">Online</string>
+	<string name="status_connected_body">Through your computer\'s network</string>
+	<string name="stat_down">Downloaded</string>
+	<string name="stat_up">Uploaded</string>
+	<string name="stat_connections">Connections</string>
+
+	<string name="steps_title">How to connect</string>
+	<string name="step_cable">Turn on USB debugging in Developer options, and plug this phone into your computer.</string>
+	<string name="step_computer">On the computer, open Shiho in Chrome. Get it from %1$s.</string>
+	<string name="step_share">Pick this phone and choose Share this computer\'s network. Every app, Minori\'s machines and the Terminal get online.</string>
+
+	<string name="notification_channel">Status</string>
+	<string name="notification_waiting">Waiting for your computer</string>
+	<string name="notification_connected">Online through your computer</string>
+
+	<string name="error_refused">Android needs your OK before Shiho can act as a VPN.</string>
+	<string name="error_revoked">Shiho was turned off because another VPN took over, or it was turned off in Settings.</string>
+	<string name="error_not_prepared">Another VPN has taken over. Open Shiho on the phone and activate it again.</string>
+	<string name="error_socket_taken">Another app is using Shiho\'s connection name. Restart the phone and try again.</string>
+</resources>

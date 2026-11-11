@@ -15,6 +15,7 @@ Leo/need.
 
 | Path                   | What                                                                                          |
 | ---------------------- | --------------------------------------------------------------------------------------------- |
+| `android/`             | The phone app: Shira's `LinkVpnService` with Shiho's name, socket and screen                  |
 | `packages/shiho/`      | `@wonderhoy-labs/shiho`: the Direct Sockets upstream for Shira, the adb server client, Trusted Types |
 | `web/`                 | The app when installed as an IWA, and the install page on GitHub Pages                        |
 | `web/plugins/shiho.ts` | Version constants and the IWA manifest (`.well-known/manifest.webmanifest`)                   |
@@ -30,8 +31,12 @@ pnpm --dir packages/shiho test && pnpm --filter ./web build
 
 ## Things to know
 
-- **Shiho has no Android app.** It uses Shira's, from the APK inside `@wonderhoy-labs/shira`. Anything the phone side
-  needs goes into Shira and a Shira release, never a copy here.
+- **Shiho has its own phone app**, `com.wonderhoylabs.shiho` in `android/`, like Shira, Akiyama and Saki. Its VPN
+  service, bridge and network stack are Shira's `shira:vpn` and `shira:tunnel` AARs (from Shira's releases, through the
+  Ivy repository in `settings.gradle.kts`); the app only adds its name, socket (`localabstract:shiho`), words and
+  screen. Anything the phone side needs goes into Shira's library and a Shira release, never a copy here. Its signing key
+  is `~/.config/wonderhoy-labs/shiho/release.keystore` (alias `shiho`, password in `keystore-password`) and the
+  `SHIHO_KEYSTORE*` secrets. Never replace it.
 - **Never replace the IWA key.** It's `~/.config/wonderhoy-labs/shiho/iwa-key.pem` (Ed25519) and the `SHIHO_IWA_KEY`
   secret, and it is Shiho's address: `isolated-app://7bnazaslgp73mlrzgb7e2x3opemnthhgdnmwhjb3rfudf75pivtqaaic/`.
 - **Chrome 156's IWA rules**, found the hard way:

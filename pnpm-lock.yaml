@@ -265,8 +265,8 @@ importers:
         specifier: 26.6.6
         version: 26.6.6
       '@wonderhoy-labs/shira':
-        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz
-        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
+        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz
+        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
       '@yume-chan/adb':
         specifier: 2.6.4
         version: 2.6.4
@@ -298,8 +298,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/shiho
       '@wonderhoy-labs/shira':
-        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz
-        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
+        specifier: https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz
+        version: https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)
       '@yume-chan/adb':
         specifier: 2.6.4
         version: 2.6.4
@@ -741,9 +741,9 @@ packages:
   '@vitest/spy@5.0.5':
     resolution: {integrity: sha512-lwJRExuH417257Q5wv9QYugN9IMJkoxcrKrYxGPQkBzl7wlNpTUxD/5yNX4ESKVUIShKPgkGchYPFMWOOk0wzw==}
 
-  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz':
-    resolution: {integrity: sha512-CGgVxNqnwwGF1Qhg1Cv7rgtu9RHtIvoqpsFZPPxMsQUeLEybbK8rcUp4KrH6bCYWocZZmXuhWWTgGC6PZKsXuw==, tarball: https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz}
-    version: 0.3.0
+  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz':
+    resolution: {integrity: sha512-F61K+QTzIuHLzCg6FiIc2VginikvDKM1hoHC3Li01ty0FlHvgOnN7XAv/6YVTmosIMfycgtv/bLowZFxwiHo1A==, tarball: https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz}
+    version: 0.4.0
     peerDependencies:
       '@mercuryworkshop/wisp-js': '*'
 
@@ -1395,7 +1395,7 @@ snapshots:
 
   '@vitest/spy@5.0.5': {}
 
-  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.3.0/wonderhoy-labs-shira-0.3.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)':
+  '@wonderhoy-labs/shira@https://github.com/wonderhoy-labs/shira/releases/download/v0.4.0/wonderhoy-labs-shira-0.4.0.tgz(@mercuryworkshop/wisp-js@https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721)':
     dependencies:
       '@mercuryworkshop/wisp-js': https://codeload.github.com/wonderhoy-labs/wisp-js/tar.gz/960fa6b995d3b210d77fd81e99435aa7cf555721
       '@yume-chan/adb': 2.6.4

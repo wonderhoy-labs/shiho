@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Compose draws everything. This only covers the moment before it does. -->
+	<style name="Theme.Shiho" parent="android:Theme.Material.Light.NoActionBar">
+		<item name="android:windowBackground">@color/window_background</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+	</style>
+	<!-- Behind the launcher icon's art, which fills it, for masks that show the edges. -->
+	<color name="ic_launcher_background">#BBDD22</color>
+</resources>

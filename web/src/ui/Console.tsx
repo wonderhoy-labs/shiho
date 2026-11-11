@@ -59,11 +59,11 @@ export function Console() {
 				<Step
 					number={2}
 					state={appStep}
-					title="Shira's VPN app"
+					title="Shiho on the phone"
 					summary={
 						current
-							? `Shira ${state.app?.versionName} is on the phone.`
-							: "Shiho uses Shira's VPN app on the phone to hand it every connection."
+							? `Shiho ${state.app?.versionName} is on the phone.`
+							: "A small VPN app that hands every connection the phone makes to this computer."
 					}
 				>
 					{appStep === "current" &&
@@ -73,8 +73,8 @@ export function Console() {
 							<mdui-button variant="filled" onClick={() => void controller.installApp()}>
 								<mdui-icon-download slot="icon" />
 								{state.app?.installed
-									? `Update to ${__SHIRA_VERSION__}`
-									: `Install Shira ${__SHIRA_VERSION__}`}
+									? `Update to ${__SHIHO_VERSION__}`
+									: `Install Shiho ${__SHIHO_VERSION__}`}
 							</mdui-button>
 						))}
 				</Step>
