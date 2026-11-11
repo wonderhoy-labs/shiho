@@ -17,6 +17,26 @@ export interface AdbServerOptions {
 	sockets?: Pick<SocketClasses, "TCPSocket">;
 }
 
+/** What Tango's Consumable looks like. */
+interface ConsumableLike {
+	tryConsume(callback: (value: Uint8Array) => unknown): unknown;
+}
+
+/**
+ * Writes bytes, or the bytes inside a Tango Consumable. Tango unwraps its own Consumables, but only ones made by the
+ * same copy of its stream library, and a page that bundles another copy, such as through another library, hands over
+ * the wrapper itself.
+ */
+async function writeChunk(writer: WritableStreamDefaultWriter<BufferSource>, chunk: unknown): Promise<void> {
+	if (ArrayBuffer.isView(chunk)) return await writer.write(chunk as Uint8Array<ArrayBuffer>);
+	const consumable = chunk as Partial<ConsumableLike> | null;
+	if (typeof consumable?.tryConsume === "function") {
+		await consumable.tryConsume((value) => writer.write(value as Uint8Array<ArrayBuffer>));
+		return;
+	}
+	throw new TypeError("Expected bytes to send to the adb server.");
+}
+
 /** Reaches an adb server with a TCP socket from Direct Sockets. */
 class DirectSocketsConnector implements AdbServerClient.ServerConnector {
 	constructor(
@@ -46,7 +66,7 @@ class DirectSocketsConnector implements AdbServerClient.ServerConnector {
 			cancel: (reason) => reader.cancel(reason),
 		});
 		const writable = new MaybeConsumable.WritableStream<Uint8Array>({
-			write: (chunk) => writer.write(chunk as Uint8Array<ArrayBuffer>),
+			write: (chunk) => writeChunk(writer, chunk),
 			// Only the sending side, which is how adb's own client says it's done.
 			close: () => writer.close(),
 			abort: () => writer.abort(),
